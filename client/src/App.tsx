@@ -11,6 +11,10 @@ import ContractDetail from "./pages/ContractDetail";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Subscription from "./pages/Subscription";
 import Support from "./pages/Support";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminUserDetail from "./pages/admin/AdminUserDetail";
+import AdminTickets from "./pages/admin/AdminTickets";
 import Home from "./pages/Home";
 
 function Router() {
@@ -24,6 +28,10 @@ function Router() {
       <Route path={"/knowledge-base"} component={KnowledgeBase} />
       <Route path={"/subscription"} component={Subscription} />
       <Route path={"/support"} component={Support} />
+      <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/admin/users"} component={AdminUsers} />
+      <Route path={"/admin/users/:id"} component={AdminUserDetail} />
+      <Route path={"/admin/tickets"} component={AdminTickets} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

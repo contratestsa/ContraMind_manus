@@ -21,20 +21,34 @@ import {
 } from "@/components/ui/sidebar";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, FileText, Upload, BookOpen, CreditCard, HelpCircle, Globe } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, FileText, Upload, BookOpen, CreditCard, HelpCircle, Globe, Shield, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
-const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", labelAr: "لوحة التحكم", path: "/dashboard" },
-  { icon: FileText, label: "Contracts", labelAr: "العقود", path: "/contracts" },
-  { icon: Upload, label: "Upload", labelAr: "رفع", path: "/upload" },
-  { icon: BookOpen, label: "Knowledge Base", labelAr: "قاعدة المعرفة", path: "/knowledge" },
-  { icon: CreditCard, label: "Subscription", labelAr: "الاشتراك", path: "/subscription" },
-  { icon: HelpCircle, label: "Support", labelAr: "الدعم", path: "/support" },
-];
+const getMenuItems = (isAdmin: boolean) => {
+  const baseItems = [
+    { icon: LayoutDashboard, label: "Dashboard", labelAr: "لوحة التحكم", path: "/dashboard" },
+    { icon: FileText, label: "Contracts", labelAr: "العقود", path: "/contracts" },
+    { icon: Upload, label: "Upload", labelAr: "رفع", path: "/upload" },
+    { icon: BookOpen, label: "Knowledge Base", labelAr: "قاعدة المعرفة", path: "/knowledge-base" },
+    { icon: CreditCard, label: "Subscription", labelAr: "الاشتراك", path: "/subscription" },
+    { icon: HelpCircle, label: "Support", labelAr: "الدعم", path: "/support" },
+  ];
+  
+  if (isAdmin) {
+    return [
+      ...baseItems,
+      { type: "separator" as const },
+      { icon: Shield, label: "Admin Panel", labelAr: "لوحة الإدارة", path: "/admin" },
+      { icon: Users, label: "Users", labelAr: "المستخدمون", path: "/admin/users" },
+      { icon: HelpCircle, label: "Tickets", labelAr: "التذاكر", path: "/admin/tickets" },
+    ];
+  }
+  
+  return baseItems;
+};
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
 const DEFAULT_WIDTH = 280;
@@ -126,7 +140,8 @@ function DashboardLayoutContent({
   const isCollapsed = state === "collapsed";
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const activeMenuItem = menuItems.find(item => item.path === location);
+  const menuItems = getMenuItems(user?.role === "admin");
+  const activeMenuItem = menuItems.find(item => 'path' in item && item.path === location);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -214,7 +229,11 @@ function DashboardLayoutContent({
 
           <SidebarContent className="gap-0">
             <SidebarMenu className="px-2 py-1">
-              {menuItems.map(item => {
+              {menuItems.map((item, index) => {
+                if ('type' in item && item.type === 'separator') {
+                  return <div key={`separator-${index}`} className="my-2 mx-2 border-t border-border" />;
+                }
+                if (!('path' in item)) return null;
                 const isActive = location === item.path;
                 return (
                   <SidebarMenuItem key={item.path}>
@@ -291,7 +310,7 @@ function DashboardLayoutContent({
               <div className="flex items-center gap-3">
                 <div className="flex flex-col gap-1">
                   <span className="tracking-tight text-foreground">
-                    {activeMenuItem?.label ?? APP_TITLE}
+                    {(activeMenuItem && 'label' in activeMenuItem) ? activeMenuItem.label : APP_TITLE}
                   </span>
                 </div>
               </div>
