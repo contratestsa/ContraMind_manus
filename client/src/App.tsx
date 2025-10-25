@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { useDocumentDirection } from "./hooks/useDocumentDirection";
 import Dashboard from "./pages/Dashboard";
 import Contracts from "./pages/Contracts";
 import Upload from "./pages/Upload";
@@ -44,6 +45,9 @@ function Router() {
 }
 
 function App() {
+  // Initialize document direction based on i18next language
+  useDocumentDirection();
+  
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
