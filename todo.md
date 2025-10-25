@@ -97,6 +97,10 @@
 - [x] Create DirChevron component for directional icons
 - [x] Test i18next integration (10 tests passing)
 - [x] Both LanguageContext and i18next working together
+- [x] Add Header RTL/LTR rendering test
+- [x] Add button logical alignment test
+- [x] Add breadcrumb chevron mirroring test
+- [x] All 17 tests passing (10 i18next + 4 RTL snapshot + 3 additional RTL)
 
 ## Known Issues
 - [ ] Fix any remaining nested anchor tag errors
