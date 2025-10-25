@@ -15,6 +15,13 @@
       "when": 1761351117810,
       "tag": "0001_complete_jack_murdock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1761408176692,
+      "tag": "0002_shocking_wolf_cub",
+      "breakpoints": true
     }
   ]
 }

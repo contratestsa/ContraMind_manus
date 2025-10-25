@@ -275,3 +275,182 @@ export const promptLibrary = mysqlTable("promptLibrary", {
 export type PromptLibrary = typeof promptLibrary.$inferSelect;
 export type InsertPromptLibrary = typeof promptLibrary.$inferInsert;
 
+
+/**
+ * Centralized branding settings
+ */
+export const brandingSettings = mysqlTable("brandingSettings", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Company branding
+  companyName: varchar("companyName", { length: 200 }).notNull(),
+  companyNameAr: varchar("companyNameAr", { length: 200 }),
+  tagline: varchar("tagline", { length: 500 }),
+  taglineAr: varchar("taglineAr", { length: 500 }),
+  
+  // Logos
+  logoUrl: text("logoUrl"),
+  logoFileKey: varchar("logoFileKey", { length: 500 }),
+  faviconUrl: text("faviconUrl"),
+  faviconFileKey: varchar("faviconFileKey", { length: 500 }),
+  
+  // Color scheme (hex values)
+  primaryColor: varchar("primaryColor", { length: 7 }).default("#2563eb"),
+  secondaryColor: varchar("secondaryColor", { length: 7 }).default("#7c3aed"),
+  accentColor: varchar("accentColor", { length: 7 }).default("#06b6d4"),
+  
+  // Contact information
+  supportEmail: varchar("supportEmail", { length: 320 }),
+  supportPhone: varchar("supportPhone", { length: 50 }),
+  websiteUrl: text("websiteUrl"),
+  
+  // Social media
+  twitterUrl: text("twitterUrl"),
+  linkedinUrl: text("linkedinUrl"),
+  facebookUrl: text("facebookUrl"),
+  
+  // Legal
+  termsUrl: text("termsUrl"),
+  privacyUrl: text("privacyUrl"),
+  
+  isActive: boolean("isActive").default(true).notNull(),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BrandingSettings = typeof brandingSettings.$inferSelect;
+export type InsertBrandingSettings = typeof brandingSettings.$inferInsert;
+
+/**
+ * Webhook events log for debugging and reconciliation
+ */
+export const webhookEvents = mysqlTable("webhookEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  eventId: varchar("eventId", { length: 500 }).notNull().unique(),
+  eventType: varchar("eventType", { length: 100 }).notNull(),
+  chargeId: varchar("chargeId", { length: 500 }),
+  paymentId: int("paymentId"),
+  
+  payload: text("payload").notNull(),
+  signature: varchar("signature", { length: 500 }),
+  
+  processed: boolean("processed").default(false).notNull(),
+  processedAt: timestamp("processedAt"),
+  processingError: text("processingError"),
+  retryCount: int("retryCount").default(0).notNull(),
+  
+  ipAddress: varchar("ipAddress", { length: 50 }),
+  userAgent: text("userAgent"),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  eventIdIdx: index("webhookEvents_eventId_idx").on(table.eventId),
+  chargeIdIdx: index("webhookEvents_chargeId_idx").on(table.chargeId),
+  processedIdx: index("webhookEvents_processed_idx").on(table.processed),
+}));
+
+export type WebhookEvent = typeof webhookEvents.$inferSelect;
+export type InsertWebhookEvent = typeof webhookEvents.$inferInsert;
+
+/**
+ * AI prompt templates for dynamic prompt management
+ */
+export const promptTemplates = mysqlTable("promptTemplates", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  name: varchar("name", { length: 200 }).notNull().unique(),
+  displayName: varchar("displayName", { length: 200 }).notNull(),
+  displayNameAr: varchar("displayNameAr", { length: 200 }),
+  
+  description: text("description"),
+  descriptionAr: text("descriptionAr"),
+  
+  systemPrompt: text("systemPrompt").notNull(),
+  systemPromptAr: text("systemPromptAr"),
+  
+  userPromptTemplate: text("userPromptTemplate").notNull(),
+  userPromptTemplateAr: text("userPromptTemplateAr"),
+  
+  variables: text("variables"), // JSON array
+  
+  category: varchar("category", { length: 100 }).notNull(),
+  tags: text("tags"), // JSON array
+  
+  version: int("version").default(1).notNull(),
+  parentId: int("parentId"),
+  
+  usageCount: int("usageCount").default(0).notNull(),
+  lastUsedAt: timestamp("lastUsedAt"),
+  
+  isActive: boolean("isActive").default(true).notNull(),
+  isDefault: boolean("isDefault").default(false).notNull(),
+  
+  createdBy: int("createdBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PromptTemplate = typeof promptTemplates.$inferSelect;
+export type InsertPromptTemplate = typeof promptTemplates.$inferInsert;
+
+/**
+ * Payment reconciliation logs
+ */
+export const reconciliationLogs = mysqlTable("reconciliationLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  startDate: timestamp("startDate").notNull(),
+  endDate: timestamp("endDate").notNull(),
+  
+  totalTapPayments: int("totalTapPayments").notNull(),
+  totalLocalPayments: int("totalLocalPayments").notNull(),
+  missingInLocal: int("missingInLocal").notNull(),
+  missingInTap: int("missingInTap").notNull(),
+  statusMismatches: int("statusMismatches").notNull(),
+  
+  discrepancies: text("discrepancies"), // JSON array
+  fixedCount: int("fixedCount").default(0).notNull(),
+  
+  triggeredBy: varchar("triggeredBy", { length: 50 }).notNull(), // "manual", "scheduled", "webhook"
+  adminUserId: int("adminUserId"),
+  executionTimeMs: int("executionTimeMs"),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  startDateIdx: index("reconciliationLogs_startDate_idx").on(table.startDate),
+}));
+
+export type ReconciliationLog = typeof reconciliationLogs.$inferSelect;
+export type InsertReconciliationLog = typeof reconciliationLogs.$inferInsert;
+
+/**
+ * Real User Monitoring (RUM) metrics
+ */
+export const rumMetrics = mysqlTable("rumMetrics", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  userId: int("userId"),
+  
+  metricName: varchar("metricName", { length: 50 }).notNull(), // LCP, CLS, INP, FCP, TTFB
+  metricValue: int("metricValue").notNull(), // in milliseconds or score
+  metricRating: varchar("metricRating", { length: 20 }), // good, needs-improvement, poor
+  metricDelta: int("metricDelta"),
+  metricId: varchar("metricId", { length: 255 }),
+  navigationType: varchar("navigationType", { length: 50 }),
+  
+  url: text("url"),
+  userAgent: text("userAgent"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  metricNameIdx: index("metricName_idx").on(table.metricName),
+  userIdIdx: index("userId_idx").on(table.userId),
+  createdAtIdx: index("createdAt_idx").on(table.createdAt),
+}));
+
+export type RumMetric = typeof rumMetrics.$inferSelect;
+export type InsertRumMetric = typeof rumMetrics.$inferInsert;
+

@@ -1,0 +1,61 @@
+{
+  "query": "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE()",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3g6eCwHBYgTo2aF.a8525c5b50e6 --database 9UvST9E2TmrF8oBZcUTo6p --execute SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE()",
+  "rows": [
+    {
+      "TABLE_NAME": "__drizzle_migrations"
+    },
+    {
+      "TABLE_NAME": "users"
+    },
+    {
+      "TABLE_NAME": "adminAuditLog"
+    },
+    {
+      "TABLE_NAME": "aiFeedback"
+    },
+    {
+      "TABLE_NAME": "aiMessages"
+    },
+    {
+      "TABLE_NAME": "contracts"
+    },
+    {
+      "TABLE_NAME": "knowledgeBase"
+    },
+    {
+      "TABLE_NAME": "payments"
+    },
+    {
+      "TABLE_NAME": "promptLibrary"
+    },
+    {
+      "TABLE_NAME": "subscriptions"
+    },
+    {
+      "TABLE_NAME": "supportTickets"
+    },
+    {
+      "TABLE_NAME": "ticketMessages"
+    },
+    {
+      "TABLE_NAME": "reconciliationLogs"
+    },
+    {
+      "TABLE_NAME": "webhookEvents"
+    },
+    {
+      "TABLE_NAME": "rumMetrics"
+    },
+    {
+      "TABLE_NAME": "brandingSettings"
+    },
+    {
+      "TABLE_NAME": "promptTemplates"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\n__drizzle_migrations\nusers\nadminAuditLog\naiFeedback\naiMessages\ncontracts\nknowledgeBase\npayments\npromptLibrary\nsubscriptions\nsupportTickets\nticketMessages\nreconciliationLogs\nwebhookEvents\nrumMetrics\nbrandingSettings\npromptTemplates\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

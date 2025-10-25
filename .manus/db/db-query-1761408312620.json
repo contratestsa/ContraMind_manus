@@ -1,0 +1,13 @@
+{
+  "query": "SHOW TABLES LIKE 'webhookEvents'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3g6eCwHBYgTo2aF.a8525c5b50e6 --database 9UvST9E2TmrF8oBZcUTo6p --execute SHOW TABLES LIKE 'webhookEvents'",
+  "rows": [
+    {
+      "Tables_in_9UvST9E2TmrF8oBZcUTo6p (webhookEvents)": "webhookEvents"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_9UvST9E2TmrF8oBZcUTo6p (webhookEvents)\nwebhookEvents\n",
+  "stderr": "",
+  "execution_time_ms": 48
+}
