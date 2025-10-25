@@ -17,6 +17,7 @@ import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminTickets from "./pages/admin/AdminTickets";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
+import { RTLDemo } from "./components/RTLDemo";
 
 function Router() {
   return (
@@ -34,6 +35,7 @@ function Router() {
       <Route path={"/admin/users/:id"} component={AdminUserDetail} />
       <Route path={"/admin/tickets"} component={AdminTickets} />
       <Route path={"/profile"} component={Profile} />
+      <Route path={"/rtl-demo"} component={RTLDemo} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

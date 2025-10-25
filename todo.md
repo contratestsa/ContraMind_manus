@@ -79,6 +79,14 @@
 - [ ] Migrate hardcoded prompts to database
 - [ ] Update AI service to use dynamic prompts
 
+## RTL/LTR Support (Arabic Language)
+- [x] Implement <html dir> attribute that flips with locale
+- [x] Convert all CSS to use logical properties (margin-inline, padding-inline)
+- [x] Create RTL icon mirroring utility (useRTL hook)
+- [x] Add RTL-aware CSS utilities (text-start, text-end, rtl-mirror)
+- [x] Add three RTL snapshot tests for key components
+- [x] Test layout direction flips correctly (all tests passing)
+
 ## Known Issues
 - [ ] Fix any remaining nested anchor tag errors
 - [ ] Improve error handling for AI timeouts

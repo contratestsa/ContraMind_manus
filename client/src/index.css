@@ -3,6 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant rtl (&:is([dir="rtl"] *));
+@custom-variant ltr (&:is([dir="ltr"] *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -129,9 +131,20 @@
     direction: rtl;
   }
   
-  [dir="rtl"] .ltr-only {
+  [dir="ltr"] {
     direction: ltr;
   }
+  
+  /* Force LTR for specific elements (like code blocks, numbers) */
+  .ltr-only {
+    direction: ltr !important;
+  }
+  
+  /* Mirror directional icons in RTL */
+  [dir="rtl"] .rtl-mirror {
+    transform: scaleX(-1);
+  }
+  
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -148,10 +161,11 @@
 @layer components {
   /**
    * Custom container utility that centers content and adds responsive padding.
+   * Uses logical properties for RTL support.
    *
    * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
+   * - Auto-center content (margin-inline: auto)
+   * - Add responsive horizontal padding (padding-inline)
    * - Set max-width for large screens
    *
    * Usage: <div className="container">...</div>
@@ -161,23 +175,19 @@
    */
   .container {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
+    margin-inline: auto;
+    padding-inline: 1rem; /* 16px - mobile padding */
   }
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
+      padding-inline: 1.5rem; /* 24px - tablet padding */
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
+      padding-inline: 2rem; /* 32px - desktop padding */
       max-width: 1280px; /* Standard content width */
     }
   }
@@ -187,6 +197,40 @@
   /* Arabic font optimization */
   .font-arabic {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* RTL-aware text alignment */
+  .text-start {
+    text-align: start;
+  }
+  
+  .text-end {
+    text-align: end;
+  }
+  
+  /* RTL-aware spacing utilities using logical properties */
+  .ms-auto {
+    margin-inline-start: auto;
+  }
+  
+  .me-auto {
+    margin-inline-end: auto;
+  }
+  
+  .ps-2 {
+    padding-inline-start: 0.5rem;
+  }
+  
+  .pe-2 {
+    padding-inline-end: 0.5rem;
+  }
+  
+  .ps-4 {
+    padding-inline-start: 1rem;
+  }
+  
+  .pe-4 {
+    padding-inline-end: 1rem;
   }
   
   /* Gradient backgrounds */
@@ -229,3 +273,4 @@
     display: none !important;
   }
 }
+
