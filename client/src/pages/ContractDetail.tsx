@@ -30,21 +30,26 @@ export default function ContractDetail() {
   const contractId = parseInt(id || "0");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [optimisticMessages, setOptimisticMessages] = useState<Array<{id: string, role: string, content: string}>>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { data: contract, isLoading: contractLoading } = trpc.contracts.getById.useQuery({ id: contractId });
   const { data: messages, isLoading: messagesLoading } = trpc.ai.getMessages.useQuery({ contractId });
 
+  const utils = trpc.useUtils();
+  
   const sendMessageMutation = trpc.ai.sendMessage.useMutation({
     onSuccess: () => {
       setMessage("");
       setIsSending(false);
+      setOptimisticMessages([]);
       // Invalidate messages to refetch
-      trpc.useUtils().ai.getMessages.invalidate({ contractId });
+      utils.ai.getMessages.invalidate({ contractId });
     },
     onError: error => {
       toast.error(error.message || "Failed to send message");
       setIsSending(false);
+      setOptimisticMessages([]);
     },
   });
 
@@ -60,13 +65,26 @@ export default function ContractDetail() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, optimisticMessages]);
 
   const handleSendMessage = async (promptText?: string) => {
     const messageToSend = promptText || message;
     if (!messageToSend.trim() || isSending) return;
 
     setIsSending(true);
+    setMessage("");
+    
+    // Add optimistic user message
+    setOptimisticMessages([{
+      id: 'temp-user',
+      role: 'user',
+      content: messageToSend
+    }, {
+      id: 'temp-assistant',
+      role: 'assistant',
+      content: 'processing'
+    }]);
+    
     await sendMessageMutation.mutateAsync({
       contractId,
       content: messageToSend,
@@ -274,8 +292,9 @@ export default function ContractDetail() {
                       <div className="flex items-center justify-center py-8">
                         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                       </div>
-                    ) : messages && messages.length > 0 ? (
-                      messages.map(msg => (
+                    ) : (
+                      <>
+                      {messages && messages.length > 0 && messages.map(msg => (
                         <div key={msg.id} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
                           {msg.role === "assistant" && (
                             <div className="flex items-start gap-3 max-w-[80%]">
@@ -311,11 +330,36 @@ export default function ContractDetail() {
                             </div>
                           )}
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-center py-8 text-muted-foreground">
-                        <p>No messages yet. Ask a question to get started!</p>
-                      </div>
+                      ))}
+                      
+                      {optimisticMessages.map(msg => (
+                        <div key={msg.id} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
+                          {msg.role === "assistant" && msg.content === "processing" ? (
+                            <div className="flex items-start gap-3 max-w-[80%]">
+                              <div className="p-2 bg-primary/10 rounded-full shrink-0">
+                                <Sparkles className="h-4 w-4 text-primary" />
+                              </div>
+                              <div className="bg-accent p-3 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                                  <span className="text-sm text-muted-foreground">ContraMind AI is analyzing...</span>
+                                </div>
+                              </div>
+                            </div>
+                          ) : msg.role === "user" ? (
+                            <div className="bg-primary text-primary-foreground p-3 rounded-lg max-w-[80%]">
+                              <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
+                      
+                      {!messages || messages.length === 0 && optimisticMessages.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <p>No messages yet. Ask a question to get started!</p>
+                        </div>
+                      ) : null}
+                      </>
                     )}
                     <div ref={messagesEndRef} />
                   </div>
