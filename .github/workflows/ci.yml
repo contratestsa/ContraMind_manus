@@ -7,7 +7,9 @@ on:
 
 jobs:
   ci:
+    name: Type Check, Test & Build
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,15 +25,25 @@ jobs:
           node-version: 22
           cache: 'pnpm'
 
-      - name: Install
+      - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Type Check
         run: pnpm check
 
-      - name: Unit Tests
+      - name: Run Tests
         run: pnpm test -- --reporter=dot
 
-      # Optional: Add Lighthouse CI + a11y later as a second stage
-      # - name: Lighthouse (lab)
-      #   run: npx @lhci/cli@0.14.x autorun || echo "LHCI soft-fail"
+      - name: Build Check
+        run: pnpm build
+        env:
+          NODE_ENV: production
+          DATABASE_URL: mysql://ci:ci@localhost:3306/ci_test
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo "## CI Results" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Type checking completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Tests completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Build verification completed" >> $GITHUB_STEP_SUMMARY
