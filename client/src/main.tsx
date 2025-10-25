@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import "@/lib/i18n";
 import { initAnalytics } from "./lib/analytics";
 import { initSentry } from "./lib/sentry";
 

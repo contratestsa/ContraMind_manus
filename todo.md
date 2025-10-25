@@ -87,6 +87,17 @@
 - [x] Add three RTL snapshot tests for key components
 - [x] Test layout direction flips correctly (all tests passing)
 
+### i18next Migration (Enhanced RTL)
+- [x] Install i18next, react-i18next, i18next-browser-languagedetector
+- [x] Create i18n configuration with language detector
+- [x] Import i18n in main.tsx
+- [x] Create useDocumentDirection hook
+- [x] Create LanguageToggle component
+- [x] Add rtl-logical.css with logical properties
+- [x] Create DirChevron component for directional icons
+- [x] Test i18next integration (10 tests passing)
+- [x] Both LanguageContext and i18next working together
+
 ## Known Issues
 - [ ] Fix any remaining nested anchor tag errors
 - [ ] Improve error handling for AI timeouts
