@@ -125,12 +125,10 @@ export default function Dashboard() {
               <CardDescription>Your latest contract analyses</CardDescription>
             </div>
             <Link href="/contracts">
-              <a>
-                <Button variant="ghost" size="sm">
-                  View All
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </a>
+              <Button variant="ghost" size="sm">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </Link>
           </CardHeader>
           <CardContent>
@@ -149,8 +147,7 @@ export default function Dashboard() {
             ) : contracts && contracts.length > 0 ? (
               <div className="space-y-4">
                 {contracts.map(contract => (
-                  <Link key={contract.id} href={`/contracts/${contract.id}`}>
-                    <a className="block p-4 border rounded-lg hover:bg-accent transition-colors">
+                  <Link key={contract.id} href={`/contracts/${contract.id}`} className="block p-4 border rounded-lg hover:bg-accent transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1 min-w-0">
                           <div className="p-2 bg-primary/10 rounded-lg">
@@ -169,7 +166,6 @@ export default function Dashboard() {
                           {getRiskBadge(contract.riskScore)}
                         </div>
                       </div>
-                    </a>
                   </Link>
                 ))}
               </div>
@@ -179,12 +175,10 @@ export default function Dashboard() {
                 <h3 className="text-lg font-medium mb-2">No contracts yet</h3>
                 <p className="text-muted-foreground mb-4">Upload your first contract to get started with AI-powered analysis</p>
                 <Link href="/upload">
-                  <a>
-                    <Button>
-                      <Upload className="mr-2 h-4 w-4" />
-                      Upload Contract
-                    </Button>
-                  </a>
+                  <Button>
+                    <Upload className="mr-2 h-4 w-4" />
+                    Upload Contract
+                  </Button>
                 </Link>
               </div>
             )}
@@ -209,9 +203,7 @@ export default function Dashboard() {
                 )}
               </div>
               <Link href="/subscription">
-                <a>
-                  <Button>Manage Subscription</Button>
-                </a>
+                <Button>Manage Subscription</Button>
               </Link>
             </div>
           </CardContent>
