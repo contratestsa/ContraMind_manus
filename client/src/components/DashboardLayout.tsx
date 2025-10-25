@@ -21,15 +21,19 @@ import {
 } from "@/components/ui/sidebar";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, FileText, Upload, BookOpen, CreditCard, HelpCircle, Globe } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Dashboard", labelAr: "لوحة التحكم", path: "/dashboard" },
+  { icon: FileText, label: "Contracts", labelAr: "العقود", path: "/contracts" },
+  { icon: Upload, label: "Upload", labelAr: "رفع", path: "/upload" },
+  { icon: BookOpen, label: "Knowledge Base", labelAr: "قاعدة المعرفة", path: "/knowledge" },
+  { icon: CreditCard, label: "Subscription", labelAr: "الاشتراك", path: "/subscription" },
+  { icon: HelpCircle, label: "Support", labelAr: "الدعم", path: "/support" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -116,6 +120,7 @@ function DashboardLayoutContent({
   setSidebarWidth,
 }: DashboardLayoutContentProps) {
   const { user, logout } = useAuth();
+  const [language, setLanguage] = useState<"en" | "ar">("en");
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -222,7 +227,7 @@ function DashboardLayoutContent({
                       <item.icon
                         className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
                       />
-                      <span>{item.label}</span>
+                      <span>{language === "ar" ? item.labelAr : item.label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -251,11 +256,18 @@ function DashboardLayoutContent({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem
+                  onClick={() => setLanguage(language === "en" ? "ar" : "en")}
+                  className="cursor-pointer"
+                >
+                  <Globe className="mr-2 h-4 w-4" />
+                  <span>{language === "en" ? "العربية" : "English"}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   onClick={logout}
                   className="cursor-pointer text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign out</span>
+                  <span>{language === "ar" ? "تسجيل الخروج" : "Sign out"}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

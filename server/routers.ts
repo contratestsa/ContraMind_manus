@@ -5,6 +5,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as db from "./db";
+import { analyzeContract, chatWithAI } from "./gemini";
 
 // Admin-only procedure
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -64,7 +65,7 @@ export const appRouter = router({
       return contract;
     }),
 
-    // Create contract record (file upload handled separately via multipart)
+    // Create contract record and trigger analysis
     create: protectedProcedure
       .input(
         z.object({
@@ -81,6 +82,57 @@ export const appRouter = router({
           ...input,
           status: "processing",
         });
+
+        // Trigger async analysis (in production, use a job queue)
+        setImmediate(async () => {
+          try {
+            // Simulate text extraction (in production, extract from actual file)
+            const extractedText = `This is a sample contract text for demonstration purposes.
+            
+            EMPLOYMENT CONTRACT
+            
+            This Employment Contract is entered into on January 1, 2024, between ABC Company ("Employer") and John Doe ("Employee").
+            
+            1. Position and Duties
+            The Employee is hired as a Software Engineer and shall perform duties as assigned by the Employer.
+            
+            2. Compensation
+            The Employee shall receive a monthly salary of 15,000 SAR, payable on the last day of each month.
+            
+            3. Working Hours
+            The Employee shall work 40 hours per week, from Sunday to Thursday, 9:00 AM to 5:00 PM.
+            
+            4. Termination
+            Either party may terminate this contract with 30 days written notice.
+            
+            5. Confidentiality
+            The Employee agrees to maintain confidentiality of all proprietary information.
+            
+            6. Governing Law
+            This contract shall be governed by the laws of the Kingdom of Saudi Arabia.`;
+
+            // Analyze contract with Gemini AI
+            const analysis = await analyzeContract(extractedText);
+
+            // Update contract with analysis results
+            await db.updateContract(contractId!, {
+              extractedText,
+              detectedLanguage: analysis.detectedLanguage,
+              status: "analyzed",
+              riskScore: analysis.riskScore,
+              shariaCompliance: analysis.shariaCompliance,
+              ksaCompliance: analysis.ksaCompliance,
+              analyzedAt: new Date(),
+            });
+          } catch (error) {
+            console.error("Contract analysis error:", error);
+            await db.updateContract(contractId!, {
+              status: "error",
+              errorMessage: "Failed to analyze contract. Please try again.",
+            });
+          }
+        });
+
         return { id: contractId };
       }),
 
@@ -166,6 +218,10 @@ export const appRouter = router({
           throw new TRPCError({ code: "FORBIDDEN", message: "Access denied" });
         }
 
+        if (contract.status !== "analyzed" || !contract.extractedText) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Contract must be analyzed first" });
+        }
+
         // Save user message
         const userMessageId = await db.createAiMessage({
           contractId: input.contractId,
@@ -175,9 +231,22 @@ export const appRouter = router({
           promptType: input.promptType,
         });
 
-        // TODO: Call Gemini API for AI response
-        // For now, return placeholder
-        const aiResponse = "AI response will be implemented with Gemini 2.5 Pro integration";
+        // Get chat history
+        const history = await db.getContractMessages(input.contractId);
+        const chatHistory = history
+          .filter(m => m.id !== userMessageId)
+          .map(m => ({
+            role: m.role as "user" | "assistant",
+            content: m.content,
+          }));
+
+        // Get AI response
+        const { response: aiResponse, tokensUsed } = await chatWithAI(
+          contract.extractedText,
+          chatHistory,
+          input.content,
+          contract.detectedLanguage === "ar" ? "ar" : "en"
+        );
 
         // Save AI response
         const aiMessageId = await db.createAiMessage({
@@ -185,7 +254,7 @@ export const appRouter = router({
           userId: ctx.user.id,
           role: "assistant",
           content: aiResponse,
-          tokensUsed: 0,
+          tokensUsed,
         });
 
         return {
