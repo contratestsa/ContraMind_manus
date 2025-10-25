@@ -45,9 +45,7 @@ export default function AdminUserDetail() {
           <UserIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-medium mb-2">User not found</h3>
           <Link href="/admin/users">
-            <a>
-              <Button>Back to Users</Button>
-            </a>
+            <Button>Back to Users</Button>
           </Link>
         </div>
       </DashboardLayout>
@@ -62,11 +60,9 @@ export default function AdminUserDetail() {
         {/* Header */}
         <div className="flex items-center gap-4">
           <Link href="/admin/users">
-            <a>
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </a>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
           </Link>
           <div className="flex-1">
             <h1 className="text-3xl font-bold tracking-tight">{user.name || "Unnamed User"}</h1>

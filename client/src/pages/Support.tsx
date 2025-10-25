@@ -268,11 +268,9 @@ export default function Support() {
             <CardContent>
               <p className="text-sm text-muted-foreground mb-2">Upgrade for faster support</p>
               <Link href="/subscription">
-                <a>
-                  <Button size="sm" variant="outline" className="w-full">
-                    View Plans
-                  </Button>
-                </a>
+                <Button size="sm" variant="outline" className="w-full">
+                  View Plans
+                </Button>
               </Link>
             </CardContent>
           </Card>

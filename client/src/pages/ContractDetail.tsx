@@ -140,9 +140,7 @@ export default function ContractDetail() {
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-medium mb-2">Contract not found</h3>
           <Link href="/contracts">
-            <a>
-              <Button>Back to Contracts</Button>
-            </a>
+            <Button>Back to Contracts</Button>
           </Link>
         </div>
       </DashboardLayout>
@@ -156,8 +154,8 @@ export default function ContractDetail() {
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Link href="/contracts">
-                <a className="text-sm text-muted-foreground hover:underline">Contracts</a>
+              <Link href="/contracts" className="text-sm text-muted-foreground hover:underline">
+                Contracts
               </Link>
               <span className="text-sm text-muted-foreground">/</span>
               <span className="text-sm font-medium">{contract.filename}</span>

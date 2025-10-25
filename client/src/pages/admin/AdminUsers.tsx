@@ -147,11 +147,9 @@ export default function AdminUsers() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Link href={`/admin/users/${u.id}`}>
-                            <a>
-                              <Button variant="ghost" size="sm">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </a>
+                            <Button variant="ghost" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
                           </Link>
                         </TableCell>
                       </TableRow>

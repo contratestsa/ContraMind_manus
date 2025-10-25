@@ -85,12 +85,10 @@ export default function Contracts() {
             <p className="text-muted-foreground mt-2">Manage and analyze your contracts</p>
           </div>
           <Link href="/upload">
-            <a>
-              <Button size="lg">
-                <Upload className="mr-2 h-4 w-4" />
-                Upload Contract
-              </Button>
-            </a>
+            <Button size="lg">
+              <Upload className="mr-2 h-4 w-4" />
+              Upload Contract
+            </Button>
           </Link>
         </div>
 
@@ -224,12 +222,10 @@ export default function Contracts() {
                 </p>
                 {!searchQuery && (
                   <Link href="/upload">
-                    <a>
-                      <Button>
-                        <Upload className="mr-2 h-4 w-4" />
-                        Upload Contract
-                      </Button>
-                    </a>
+                    <Button>
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload Contract
+                    </Button>
                   </Link>
                 )}
               </div>
