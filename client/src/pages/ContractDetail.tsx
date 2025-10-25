@@ -23,6 +23,7 @@ import {
 import { useParams, Link } from "wouter";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
+import { MarkdownMessage } from "@/components/MarkdownMessage";
 
 export default function ContractDetail() {
   const { id } = useParams<{ id: string }>();
@@ -283,7 +284,7 @@ export default function ContractDetail() {
                               </div>
                               <div className="space-y-2">
                                 <div className="bg-accent p-3 rounded-lg">
-                                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                                  <MarkdownMessage content={msg.content} />
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <Button
