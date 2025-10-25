@@ -102,21 +102,17 @@ export default function Dashboard() {
             <CardDescription>Get started with contract analysis</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
-            <Link href="/upload">
-              <a className="block">
-                <Button className="w-full h-auto py-6 flex-col gap-2" size="lg">
-                  <Upload className="h-6 w-6" />
-                  <span>Upload New Contract</span>
-                </Button>
-              </a>
+            <Link href="/upload" className="block">
+              <Button className="w-full h-auto py-6 flex-col gap-2" size="lg">
+                <Upload className="h-6 w-6" />
+                <span>Upload New Contract</span>
+              </Button>
             </Link>
-            <Link href="/contracts">
-              <a className="block">
-                <Button variant="outline" className="w-full h-auto py-6 flex-col gap-2" size="lg">
-                  <FileText className="h-6 w-6" />
-                  <span>View All Contracts</span>
-                </Button>
-              </a>
+            <Link href="/contracts" className="block">
+              <Button variant="outline" className="w-full h-auto py-6 flex-col gap-2" size="lg">
+                <FileText className="h-6 w-6" />
+                <span>View All Contracts</span>
+              </Button>
             </Link>
           </CardContent>
         </Card>
