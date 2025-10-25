@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, FileText, Upload, BookOpen, CreditCard, HelpCircle, Globe, Shield, Users } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, FileText, Upload, BookOpen, CreditCard, HelpCircle, Globe, Shield, Users, User as UserIcon } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -274,6 +274,13 @@ function DashboardLayoutContent({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  onClick={() => setLocation("/profile")}
+                  className="cursor-pointer"
+                >
+                  <UserIcon className="mr-2 h-4 w-4" />
+                  <span>{language === "ar" ? "الملف الشخصي" : "Profile"}</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => setLanguage(language === "en" ? "ar" : "en")}
                   className="cursor-pointer"

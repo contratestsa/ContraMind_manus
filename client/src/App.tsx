@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminTickets from "./pages/admin/AdminTickets";
+import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 
 function Router() {
@@ -32,6 +33,7 @@ function Router() {
       <Route path={"/admin/users"} component={AdminUsers} />
       <Route path={"/admin/users/:id"} component={AdminUserDetail} />
       <Route path={"/admin/tickets"} component={AdminTickets} />
+      <Route path={"/profile"} component={Profile} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
