@@ -281,3 +281,7 @@ Built specifically for Saudi Arabian businesses with:
 
 **ContraMind.ai** - Transforming contract analysis with AI
 
+
+
+## Testing CI Workflow
+This commit should trigger the GitHub Actions CI workflow.
