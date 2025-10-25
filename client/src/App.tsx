@@ -20,7 +20,7 @@ import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import { RTLDemo } from "./components/RTLDemo";
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -53,7 +53,7 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <AppRoutes />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
