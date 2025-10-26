@@ -34,11 +34,16 @@ async function startServer() {
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  // Test route to verify routing works
+  app.get("/api/test", (req, res) => {
+    res.json({ message: "Test route works" });
+  });
+  
+  // RUM (Real User Monitoring) API - must be before OAuth to avoid auth middleware
+  app.use("/api", rumRouter);
+  
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
-  
-  // RUM (Real User Monitoring) API
-  app.use("/api", rumRouter);
   // tRPC API
   app.use(
     "/api/trpc",

@@ -32,6 +32,7 @@ const rumPayloadSchema = z.object({
  * Store Web Vitals metrics from client
  */
 router.post('/rum', rumLimiter, async (req, res) => {
+  console.log('[RUM API] POST /rum received:', { body: req.body, headers: req.headers });
   try {
     // Validate payload
     const payload = rumPayloadSchema.parse(req.body);
