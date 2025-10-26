@@ -71,6 +71,20 @@ async function startServer() {
     serveStatic(app);
   }
 
+  // Global error handler (must be after all routes)
+  app.use((err: any, req: any, res: any, _next: any) => {
+    const status = err?.status || 500;
+    const traceId = res.getHeader("X-Trace-Id") || req.headers["x-trace-id"];
+    if (status >= 500) {
+      console.error("Unhandled error", { traceId, message: err?.message });
+    }
+    res.status(status).json({
+      error: err?.code || "internal_error",
+      message: process.env.NODE_ENV === "production" ? "Internal server error" : err?.message,
+      traceId,
+    });
+  });
+
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);
 

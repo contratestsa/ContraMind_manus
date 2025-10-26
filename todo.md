@@ -184,3 +184,14 @@
 - [x] Return structured error response with validation issues (400 status code)
 - [x] Export validate() function for use in routes
 
+
+
+## Global Error Handler & CodeQL SAST ✅
+- [x] Add global error handler middleware to server (after all routes)
+- [x] Include trace ID in error responses (from X-Trace-Id header)
+- [x] Hide error details in production (show generic message)
+- [x] Log 500+ errors with trace context (console.error with traceId)
+- [x] Create .github/workflows/codeql.yml for SAST
+- [x] Configure CodeQL for JavaScript analysis on push/PR
+- [x] Server restarted successfully with error handler
+
