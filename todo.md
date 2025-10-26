@@ -121,3 +121,17 @@
 - [ ] Add rate limiting for API endpoints
 - [ ] Implement proper logging system
 
+
+## PROMPT 1: Web Vitals RUM (Real User Monitoring) ✅
+- [x] Install web-vitals package
+- [x] Create client/src/lib/webVitals.ts with onLCP/onCLS/onINP
+- [x] Add sender that posts to /api/rum and PostHog
+- [x] Import in main.tsx with VITE_RUM_ENABLED feature flag
+- [x] Create POST /api/rum endpoint with Zod validation
+- [x] Insert metrics into rumMetrics table using Drizzle
+- [x] Add rate limiting per IP (100 req/15min)
+- [x] Add VITE_RUM_ENABLED env variable
+- [x] Create admin page at /admin/web-vitals
+- [x] Fix vite.ts catch-all to skip /api routes
+- [x] Generate 91 test metrics successfully
+- [x] Verify metrics stored with URL, name, value, rating, timestamp
