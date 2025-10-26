@@ -195,3 +195,11 @@
 - [x] Configure CodeQL for JavaScript analysis on push/PR
 - [x] Server restarted successfully with error handler
 
+
+
+## CodeQL Workflow (Manual Setup Required) ⚠️
+- [x] Create .github/workflows/codeql.yml locally
+- [x] Create docs/CODEQL_SETUP.md with setup instructions
+- [ ] Manually add workflow to GitHub (see CODEQL_SETUP.md for 3 methods)
+- [ ] Verify CodeQL runs in GitHub Actions tab
+
