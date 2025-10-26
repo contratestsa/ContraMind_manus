@@ -135,3 +135,16 @@
 - [x] Fix vite.ts catch-all to skip /api routes
 - [x] Generate 91 test metrics successfully
 - [x] Verify metrics stored with URL, name, value, rating, timestamp
+
+
+## AI Audit & Safety Evaluation Documentation
+- [x] Create docs/AUDIT/AI_AUDIT_PROMPT_PACK.md - Comprehensive AI auditor guide
+- [x] Create templates/Audit-Report.md - Structured audit report template
+- [x] Create templates/Fix-Plan.md - Prioritized fix plan template
+- [x] Create templates/Test-Plan.md - Test coverage plan template
+- [x] Create schemas/issues.schema.json - Machine-readable issues schema
+- [x] Create scripts/generate_repo_tree.sh - Repository tree generator
+- [x] Create docs/AI_SAFETY_EVAL.md - AI safety evaluation framework
+- [x] Create .github/ISSUE_TEMPLATE/audit_request.md - GitHub audit request template
+- [x] Create .github/workflows/security.yml - Automated security scanning workflow
+

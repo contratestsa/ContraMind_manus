@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Audit Issues Schema",
+  "type": "object",
+  "properties": {
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "Blocker",
+              "Critical",
+              "Major",
+              "Minor"
+            ]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Med",
+              "Low"
+            ]
+          },
+          "component": {
+            "type": "string",
+            "enum": [
+              "frontend",
+              "backend",
+              "worker",
+              "infra",
+              "docs",
+              "llm"
+            ]
+          },
+          "file": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "summary": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "repro": {
+            "type": "string"
+          },
+          "root_cause": {
+            "type": "string"
+          },
+          "fix": {
+            "type": "string"
+          },
+          "diff": {
+            "type": "string"
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "severity",
+          "confidence",
+          "component",
+          "file",
+          "lines",
+          "summary",
+          "root_cause",
+          "fix"
+        ]
+      }
+    }
+  },
+  "required": [
+    "issues"
+  ]
+}
