@@ -164,3 +164,15 @@
 - [x] Create comprehensive TRACING.md documentation
 - [x] Add pnpm override to fix OpenTelemetry version conflicts
 
+
+
+## Security Module Enhancement ✅
+- [x] Create server/_core/security.ts with comprehensive security middleware
+- [x] Install security dependencies (helmet, cors, hpp, @types/cors, @types/hpp)
+- [x] Configure Helmet with CSP, HSTS, and security headers
+- [x] Set up CORS with allowlist (ALLOWED_ORIGINS env var)
+- [x] Add rate limiting for API endpoints (global: 300/15min, auth: 5/min, upload: 30/15min, webhook: 60/15min)
+- [x] Add HPP (HTTP Parameter Pollution) protection
+- [x] Integrate security module into server entry point (server/_core/index.ts)
+- [x] Test security headers and rate limiting (verified with curl)
+
