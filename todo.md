@@ -148,3 +148,19 @@
 - [x] Create .github/ISSUE_TEMPLATE/audit_request.md - GitHub audit request template
 - [x] Create .github/workflows/security.yml - Automated security scanning workflow
 
+
+
+## PROMPT 2: OpenTelemetry Tracing (Express + tRPC + DB) ✅
+- [x] Install OpenTelemetry dependencies (@opentelemetry/sdk-node, @opentelemetry/instrumentation-http, @opentelemetry/instrumentation-express, @opentelemetry/instrumentation-mysql2)
+- [x] Create server/_core/tracing.ts with SDK initialization
+- [x] Configure HTTP/Express/MySQL2 instrumentation
+- [x] Set up console exporter (OTLP exporter available via env var)
+- [x] Import and start tracing in server entry point (server/_core/index.ts)
+- [x] Add trace middleware to inject trace/span ID (server/_core/traceMiddleware.ts)
+- [x] Add X-Trace-Id and X-Span-Id headers to responses
+- [x] Add OTEL_ENABLED and OTEL_SERVICE_NAME env variables
+- [x] Create /api/health endpoint to verify tracing status
+- [x] Test tracing initialization (logs show successful init)
+- [x] Create comprehensive TRACING.md documentation
+- [x] Add pnpm override to fix OpenTelemetry version conflicts
+

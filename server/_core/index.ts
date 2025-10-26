@@ -1,4 +1,6 @@
 import "dotenv/config";
+// IMPORTANT: Import tracing FIRST before any other imports to ensure proper instrumentation
+import "./tracing";
 import express from "express";
 import { createServer } from "http";
 import net from "net";
@@ -8,6 +10,8 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import rumRouter from "../routes/rum";
+import healthRouter from "../routes/health";
+import { traceMiddleware } from "./traceMiddleware";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -34,6 +38,9 @@ async function startServer() {
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  
+  // Add trace ID middleware to inject trace IDs into logs and response headers
+  app.use(traceMiddleware);
   // Test route to verify routing works
   app.get("/api/test", (req, res) => {
     res.json({ message: "Test route works" });
@@ -41,6 +48,9 @@ async function startServer() {
   
   // RUM (Real User Monitoring) API - must be before OAuth to avoid auth middleware
   app.use("/api", rumRouter);
+  
+  // Health check endpoint
+  app.use("/api", healthRouter);
   
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
