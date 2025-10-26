@@ -10,12 +10,14 @@ import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
 import "@/lib/i18n";
+import { initWebVitals } from "@/lib/webVitals";
 import { initAnalytics } from "./lib/analytics";
 import { initSentry } from "./lib/sentry";
 
 // Initialize monitoring and analytics
 initSentry();
 initAnalytics();
+initWebVitals();
 
 const queryClient = new QueryClient();
 

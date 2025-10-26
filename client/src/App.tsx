@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminTickets from "./pages/admin/AdminTickets";
+import WebVitalsPage from "./pages/admin/WebVitals";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import { RTLDemo } from "./components/RTLDemo";
@@ -35,6 +36,7 @@ function AppRoutes() {
       <Route path={"/admin/users"} component={AdminUsers} />
       <Route path={"/admin/users/:id"} component={AdminUserDetail} />
       <Route path={"/admin/tickets"} component={AdminTickets} />
+      <Route path={"/admin/web-vitals"} component={WebVitalsPage} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/rtl-demo"} component={RTLDemo} />
       <Route path={"/404"} component={NotFound} />

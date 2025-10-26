@@ -102,6 +102,19 @@
 - [x] Add breadcrumb chevron mirroring test
 - [x] All 17 tests passing (10 i18next + 4 RTL snapshot + 3 additional RTL)
 
+## PROMPT 1: Web Vitals RUM (Real User Monitoring)
+- [x] Install web-vitals package
+- [x] Create client/src/lib/webVitals.ts with onLCP/onCLS/onINP
+- [x] Add sender that posts to /api/rum and PostHog
+- [x] Import in main.tsx with VITE_RUM_ENABLED feature flag
+- [x] Create POST /api/rum endpoint with Zod validation
+- [x] Insert metrics into rumMetrics table using Drizzle
+- [x] Add rate limiting per IP for anti-spam (100 requests per 15 min)
+- [x] Add VITE_RUM_ENABLED env variable
+- [x] Create admin page at /admin/web-vitals to view metrics
+- [x] Feature flag controlled (VITE_RUM_ENABLED=1)
+- [x] Metrics include URL, metric name, value, rating, timestamp, IP, user agent
+
 ## Known Issues
 - [ ] Fix any remaining nested anchor tag errors
 - [ ] Improve error handling for AI timeouts
