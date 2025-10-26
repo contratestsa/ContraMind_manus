@@ -176,3 +176,11 @@
 - [x] Integrate security module into server entry point (server/_core/index.ts)
 - [x] Test security headers and rate limiting (verified with curl)
 
+
+
+## Validation Helper Middleware ✅
+- [x] Create server/_core/validate.ts with Zod validation middleware
+- [x] Support validation for body, query, and params
+- [x] Return structured error response with validation issues (400 status code)
+- [x] Export validate() function for use in routes
+
