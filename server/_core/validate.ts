@@ -1,5 +1,5 @@
 // server/_core/validate.ts
-import type { AnyZodObject } from "zod";
+import type { ZodType } from "zod";
 import type { Request, Response, NextFunction } from "express";
 
 /**
@@ -7,7 +7,7 @@ import type { Request, Response, NextFunction } from "express";
  * Returns HTTP 400 with structured issues on failure.
  */
 export const validate =
-  (schema: AnyZodObject) =>
+  (schema: ZodType) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await schema.parseAsync({
