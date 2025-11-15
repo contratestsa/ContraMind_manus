@@ -135,7 +135,8 @@
     },
     "overrides": {
       "tailwindcss>nanoid": "3.3.7",
-      "@opentelemetry/sdk-trace-base": "1.27.0"
+      "@opentelemetry/sdk-trace-base": "1.27.0",
+      "esbuild@<=0.24.2": ">=0.25.0"
     }
   }
 }
