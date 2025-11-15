@@ -10,6 +10,9 @@ import hpp from "hpp";
  * Applies headers, CORS, body limits, HPP, and rate limits.
  */
 export function applySecurity(app: express.Express) {
+  // Trust proxy - required when behind Manus proxy or load balancers
+  app.set("trust proxy", true);
+  
   // Hide Express
   app.disable("x-powered-by");
 
@@ -28,7 +31,25 @@ export function applySecurity(app: express.Express) {
     cors({
       origin(origin, cb) {
         if (!origin) return cb(null, true); // same-origin / server-to-server
+        
+        // Allow configured origins
         if (allow.includes(origin)) return cb(null, true);
+        
+        // Allow Manus development and preview domains
+        if (origin && (
+          origin.includes('.manusvm.computer') ||
+          origin.includes('.manus.space') ||
+          origin.includes('localhost') ||
+          origin.includes('127.0.0.1')
+        )) {
+          return cb(null, true);
+        }
+        
+        // In development, allow all origins for easier testing
+        if (process.env.NODE_ENV === 'development') {
+          return cb(null, true);
+        }
+        
         return cb(new Error("Not allowed by CORS"));
       },
       credentials: true,
@@ -41,21 +62,25 @@ export function applySecurity(app: express.Express) {
   app.use(
     helmet({
       hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
-      crossOriginResourcePolicy: { policy: "same-origin" },
+      crossOriginResourcePolicy: false, // Allow cross-origin resource loading for Preview panel
+      frameguard: false, // Disable X-Frame-Options to allow iframe embedding
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
           "default-src": ["'self'"],
-          "img-src": ["'self'", "data:"],
-          "script-src": ["'self'"],
-          "style-src": ["'self'", "'unsafe-inline'"],
+          "img-src": ["'self'", "data:", "https://files.manuscdn.com"],
+          "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://manus-analytics.com"],
+          "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+          "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
           "connect-src": [
             "'self'",
+            "https://manus-analytics.com",
             process.env.VITE_POSTHOG_HOST || "https://app.posthog.com",
             "https:",
             "wss:",
           ],
-          "frame-ancestors": ["'self'"],
+          // Allow embedding in Manus Preview panel and any iframe
+          "frame-ancestors": null, // Disable frame-ancestors restriction
           "upgrade-insecure-requests": [],
         },
       },
