@@ -4,7 +4,7 @@ export const APP_TITLE = import.meta.env.VITE_APP_TITLE || "ContraMind.ai";
 
 export const APP_LOGO =
   import.meta.env.VITE_APP_LOGO ||
-  "https://placehold.co/128x128/2563EB/FFFFFF?text=CM";
+  "/logos/contramind-horizontal-transparent.svg";
 
 // Generate login URL at runtime so redirect URI reflects the current origin.
 export const getLoginUrl = () => {

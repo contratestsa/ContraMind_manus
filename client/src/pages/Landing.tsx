@@ -94,7 +94,7 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <img src={APP_LOGO} alt={APP_TITLE} className="h-8 w-8 rounded-lg" />
+              <img src={APP_LOGO} alt={APP_TITLE} className="h-10 w-auto object-contain" />
               <span className="text-xl font-bold">{APP_TITLE}</span>
             </div>
             <nav className="hidden md:flex items-center gap-8">
@@ -278,7 +278,7 @@ export default function Landing() {
           <div className="grid gap-8 md:grid-cols-4">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <img src={APP_LOGO} alt={APP_TITLE} className="h-8 w-8 rounded-lg" />
+                <img src={APP_LOGO} alt={APP_TITLE} className="h-10 w-auto object-contain" />
                 <span className="text-lg font-bold">{APP_TITLE}</span>
               </div>
               <p className="text-sm text-gray-400">
